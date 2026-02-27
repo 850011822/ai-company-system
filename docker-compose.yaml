@@ -1,0 +1,41 @@
+# AI公司系统 - Docker Compose配置
+
+version: '3.8'
+
+services:
+  ai-company:
+    build: .
+    container_name: ai-company-system
+    volumes:
+      - ./memory:/app/memory
+      - ./logs:/app/logs
+      - ./output:/app/output
+      - ./data:/app/data
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - ai-company-network
+
+  # 可选：Ollama本地模型服务
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-service
+    volumes:
+      - ollama-data:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    networks:
+      - ai-company-network
+    profiles:
+      - local-model
+
+networks:
+  ai-company-network:
+    driver: bridge
+
+volumes:
+  ollama-data:
