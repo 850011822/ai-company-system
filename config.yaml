@@ -1,0 +1,106 @@
+# AI公司系统配置文件
+
+# 系统基础配置
+system:
+  name: "AI公司系统"
+  version: "1.0.0"
+  debug: false
+  log_level: "INFO"
+
+# API配置
+api:
+  provider: "openai"  # openai, siliconflow, ollama, anthropic
+  api_key: "${OPENAI_API_KEY}"
+  base_url: "${OPENAI_API_BASE}"
+  model: "${MODEL_NAME}"
+  temperature: 0.7
+  max_tokens: 2000
+  timeout: 120
+
+# Agent配置
+agents:
+  cto:
+    name: "首席技术官"
+    goal: "追踪前沿技术，提升技术能力"
+    verbose: true
+    max_iterations: 10
+
+  coo:
+    name: "首席运营官"
+    goal: "优化运营效率，持续改进"
+    verbose: true
+    max_iterations: 10
+
+  cmo:
+    name: "首席市场官"
+    goal: "分析市场机会，识别商业价值"
+    verbose: true
+    max_iterations: 10
+
+  cpo:
+    name: "首席产品官"
+    goal: "执行项目，交付产品"
+    verbose: true
+    max_iterations: 15
+
+# 记忆系统配置
+memory:
+  enabled: true
+  type: "sqlite"  # sqlite, vector, redis
+  db_path: "memory/company_memory.db"
+  retention_days: 90
+  auto_save: true
+
+# 任务配置
+tasks:
+  default_timeout: 600  # 秒
+  max_retries: 3
+  retry_delay: 5
+
+# 工作流配置
+workflows:
+  auto_mode: false
+  cycle_interval: 3600  # 秒
+  parallel_execution: false
+  max_concurrent_tasks: 3
+
+# 工具配置
+tools:
+  web_search:
+    enabled: true
+    max_results: 10
+    timeout: 30
+
+  fetch_content:
+    enabled: true
+    max_length: 10000
+    timeout: 30
+
+  memory:
+    enabled: true
+    categories:
+      - tech_trends
+      - market_analysis
+      - optimization
+      - projects
+
+# 输出配置
+output:
+  directory: "output"
+  format: "markdown"
+  save_logs: true
+  log_directory: "logs"
+
+# 调度配置（高级功能）
+scheduler:
+  enabled: false
+  tasks:
+    - name: "daily_tech_scan"
+      cron: "0 8 * * *"
+      action: "tech_research"
+      topic: "AI最新技术动态"
+
+    - name: "weekly_market_analysis"
+      cron: "0 9 * * 1"
+      action: "market_analysis"
+      focus: "本周市场趋势"
